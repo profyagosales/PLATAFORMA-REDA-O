@@ -1,34 +1,19 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "type": "commonjs",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "echo \"No tests specified\""
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "multer": "^1.4.5-lts.1",
-    "@aws-sdk/client-s3": "^3.554.0",
-    "dotenv": "^16.4.0"
-  "main": "index.js",
- codex/implement-components-for-alunodashboard
-  "type": "commonjs",
-  "dependencies": {
-    "express": "^4.18.2",
-    "multer": "^1.4.5"
-  },
-  "scripts": {
-    "start": "node index.js",
     "test": "node --check index.js && node --check routes/student.js && node --check models/essay.js && node --check services/payment.js"
-  "scripts": {
-    "test": "echo \"No tests\""
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.554.0",
     "bcrypt": "^5.1.0",
+    "dotenv": "^16.4.0",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.3.1"
- main
+    "mongoose": "^7.3.1",
+    "multer": "^1.4.5-lts.1"
   }
 }
