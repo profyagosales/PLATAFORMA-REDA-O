@@ -1,55 +1,29 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
+
 const router = express.Router();
-const admin = require('../middleware/admin');
-const service = require('../services/teacherService');
 
-// all routes below require admin/teacher role
-router.use(admin);
-
-// Theme CRUD
-router.get('/themes', (req, res) => {
-  res.json(service.listThemes());
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, '../../uploads'));
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
 });
 
-router.post('/themes', (req, res) => {
-  const theme = service.createTheme(req.body);
-  res.status(201).json(theme);
-});
+const upload = multer({ storage });
 
-router.put('/themes/:id', (req, res) => {
-  const theme = service.updateTheme(req.params.id, req.body);
-  if (!theme) return res.status(404).json({ error: 'Tema não encontrado' });
-  res.json(theme);
-});
+// POST /teacher/feedback
+// Receives a video blob and stores it in the uploads directory.
+router.post('/feedback', upload.single('video'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No video uploaded' });
+  }
 
-router.delete('/themes/:id', (req, res) => {
-  const success = service.removeTheme(req.params.id);
-  res.json({ success });
-});
-
-// Student management
-router.get('/students', (req, res) => {
-  res.json(service.listStudents());
-});
-
-router.post('/students', (req, res) => {
-  const student = service.addStudent(req.body);
-  res.status(201).json(student);
-});
-
-router.delete('/students/:id', (req, res) => {
-  const success = service.removeStudent(req.params.id);
-  res.json({ success });
-});
-
-// Corrections
-router.get('/corrections', (req, res) => {
-  res.json(service.listCorrections());
-});
-
-router.post('/corrections', (req, res) => {
-  const correction = service.addCorrection(req.body);
-  res.status(201).json(correction);
+  const url = `/uploads/${req.file.filename}`;
+  res.json({ url });
 });
 
 module.exports = router;
