@@ -1,10 +1,12 @@
 const express = require('express');
 const multer = require('multer');
 const storageService = require('../services/storage');
+const Essay = require('../models/essay');
+const { checkPlan } = require('../services/payment');
 
 const router = express.Router();
 
-const upload = multer({
+const memoryUpload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
@@ -22,20 +24,18 @@ const upload = multer({
   }
 });
 
-router.post('/essays', upload.single('file'), async (req, res) => {
+router.post('/essays', memoryUpload.single('file'), async (req, res) => {
   try {
     const url = await storageService.uploadFile(req.file);
     res.json({ url });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
-const Essay = require('../models/essay');
-const { checkPlan } = require('../services/payment');
+});
 
-const router = express.Router();
-const upload = multer({ dest: 'uploads/' });
+const diskUpload = multer({ dest: 'uploads/' });
 
-router.post('/upload', checkPlan('upload'), upload.single('file'), (req, res) => {
+router.post('/upload', checkPlan('upload'), diskUpload.single('file'), (req, res) => {
   const { theme } = req.body;
   if (!req.file) {
     return res.status(400).json({ error: 'Arquivo não enviado' });
@@ -56,7 +56,6 @@ router.get('/correcoes', checkPlan('correcoes'), (req, res) => {
 });
 
 router.put('/profile', checkPlan('perfil'), (req, res) => {
-  // Aqui apenas retornamos os dados recebidos como confirmação
   res.json({ success: true, profile: req.body });
 });
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const multer = require('multer');
 const Rubric = require('../models/rubric');
 
 const router = express.Router();
@@ -18,11 +19,9 @@ router.post('/grade', (req, res) => {
   fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
 
   res.json({ success: true, reportPath, report });
-const multer = require('multer');
-const path = require('path');
+});
 
-const router = express.Router();
-
+// Configuração para upload de vídeos de feedback
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.join(__dirname, '../../uploads'));
