@@ -2,31 +2,17 @@
   "name": "frontend",
   "version": "1.0.0",
   "private": true,
+  "main": "index.js",
   "scripts": {
     "start": "echo \"start placeholder\"",
-    "test": "echo \"No tests specified\""
+    "test": "echo \"No tests\""
   },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "pdfjs-dist": "^3.6.172",
     "mammoth": "^1.4.21",
-    "pdf-lib": "^1.17.1"
- codex/implement-components-for-alunodashboard
-  "private": true,
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "scripts": {
-    "test": "echo 'No tests'"
-
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"No tests\""
-  },
-  "dependencies": {
-    "react": "^18.0.0"
- main
+    "pdf-lib": "^1.17.1",
+    "styled-components": "^6.1.19"
   }
 }
